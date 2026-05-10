@@ -14,16 +14,306 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bills: {
+        Row: {
+          client_service_id: string
+          created_at: string
+          id: string
+          paid_paise: number
+          period_month: string
+          status: Database["public"]["Enums"]["bill_status"]
+          subscriber_id: string
+          total_paise: number
+        }
+        Insert: {
+          client_service_id: string
+          created_at?: string
+          id?: string
+          paid_paise?: number
+          period_month: string
+          status?: Database["public"]["Enums"]["bill_status"]
+          subscriber_id: string
+          total_paise?: number
+        }
+        Update: {
+          client_service_id?: string
+          created_at?: string
+          id?: string
+          paid_paise?: number
+          period_month?: string
+          status?: Database["public"]["Enums"]["bill_status"]
+          subscriber_id?: string
+          total_paise?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bills_client_service_id_fkey"
+            columns: ["client_service_id"]
+            isOneToOne: false
+            referencedRelation: "client_services"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bills_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_services: {
+        Row: {
+          active: boolean
+          areas: string[]
+          client_id: string
+          created_at: string
+          id: string
+          pricing: Json
+          service_type: Database["public"]["Enums"]["service_type"]
+          settings: Json
+          unique_code: string
+        }
+        Insert: {
+          active?: boolean
+          areas?: string[]
+          client_id: string
+          created_at?: string
+          id?: string
+          pricing?: Json
+          service_type: Database["public"]["Enums"]["service_type"]
+          settings?: Json
+          unique_code: string
+        }
+        Update: {
+          active?: boolean
+          areas?: string[]
+          client_id?: string
+          created_at?: string
+          id?: string
+          pricing?: Json
+          service_type?: Database["public"]["Enums"]["service_type"]
+          settings?: Json
+          unique_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_services_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          balance_paise: number
+          business_name: string
+          created_at: string
+          email: string | null
+          id: string
+          owner_id: string
+          owner_name: string
+          phone: string
+        }
+        Insert: {
+          balance_paise?: number
+          business_name: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          owner_id: string
+          owner_name: string
+          phone: string
+        }
+        Update: {
+          balance_paise?: number
+          business_name?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          owner_id?: string
+          owner_name?: string
+          phone?: string
+        }
+        Relationships: []
+      }
+      deliveries: {
+        Row: {
+          client_service_id: string
+          created_at: string
+          delivery_date: string
+          id: string
+          notes: string | null
+          status: Database["public"]["Enums"]["delivery_status"]
+          subscriber_id: string
+        }
+        Insert: {
+          client_service_id: string
+          created_at?: string
+          delivery_date?: string
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["delivery_status"]
+          subscriber_id: string
+        }
+        Update: {
+          client_service_id?: string
+          created_at?: string
+          delivery_date?: string
+          id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["delivery_status"]
+          subscriber_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deliveries_client_service_id_fkey"
+            columns: ["client_service_id"]
+            isOneToOne: false
+            referencedRelation: "client_services"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deliveries_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      subscribers: {
+        Row: {
+          active: boolean
+          address: string | null
+          area: string | null
+          client_service_id: string
+          id: string
+          joined_at: string
+          name: string
+          phone: string | null
+          settings: Json
+        }
+        Insert: {
+          active?: boolean
+          address?: string | null
+          area?: string | null
+          client_service_id: string
+          id?: string
+          joined_at?: string
+          name: string
+          phone?: string | null
+          settings?: Json
+        }
+        Update: {
+          active?: boolean
+          address?: string | null
+          area?: string | null
+          client_service_id?: string
+          id?: string
+          joined_at?: string
+          name?: string
+          phone?: string | null
+          settings?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscribers_client_service_id_fkey"
+            columns: ["client_service_id"]
+            isOneToOne: false
+            referencedRelation: "client_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      water_requests: {
+        Row: {
+          address: string | null
+          area: string | null
+          client_service_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          requester_name: string
+          requester_phone: string | null
+          status: Database["public"]["Enums"]["water_request_status"]
+          water_type: string | null
+        }
+        Insert: {
+          address?: string | null
+          area?: string | null
+          client_service_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          requester_name: string
+          requester_phone?: string | null
+          status?: Database["public"]["Enums"]["water_request_status"]
+          water_type?: string | null
+        }
+        Update: {
+          address?: string | null
+          area?: string | null
+          client_service_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          requester_name?: string
+          requester_phone?: string | null
+          status?: Database["public"]["Enums"]["water_request_status"]
+          water_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "water_requests_client_service_id_fkey"
+            columns: ["client_service_id"]
+            isOneToOne: false
+            referencedRelation: "client_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_service_code: {
+        Args: { svc: Database["public"]["Enums"]["service_type"] }
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      bill_status: "pending" | "partial" | "paid"
+      delivery_status: "pending" | "delivered" | "skipped" | "missed"
+      service_type: "water" | "milk" | "tiffin" | "newspaper"
+      water_request_status: "pending" | "accepted" | "declined" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +440,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      bill_status: ["pending", "partial", "paid"],
+      delivery_status: ["pending", "delivered", "skipped", "missed"],
+      service_type: ["water", "milk", "tiffin", "newspaper"],
+      water_request_status: ["pending", "accepted", "declined", "completed"],
+    },
   },
 } as const
